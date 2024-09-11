@@ -1,6 +1,6 @@
 #chart{
     width: 70vw;
-    height: 60vh;
+    height: 80vh;
 }
 
 * {
@@ -15,4 +15,11 @@
 
 body{
     margin: 2rem;
+}
+
+#flexme{
+    margin: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
