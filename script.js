@@ -13,6 +13,7 @@ let titleColor = '#000000'; // Default title color
 let gridLineColor = '#e6e6e6'; // Default grid line color
 let regressionLineColor = '#000000'; // Default regression line color
 let labelColor = '#000000'; // Default series label color
+let labelOutlineColor = '#ffffff'; // Default label outline color
 
 const target = document.getElementById('color-pickers');
 
@@ -20,6 +21,12 @@ const target = document.getElementById('color-pickers');
 const getRandomTitle = () => {
     const titles = ['Growth Trend', 'Sales Analysis', 'Market Insight', 'Revenue Forecast', 'Data Summary', 'Profit Evaluation'];
     return titles[Math.floor(Math.random() * titles.length)];
+};
+
+// Function to randomly assign shapes to the points
+const getRandomShape = () => {
+    const shapes = ['circle', 'square', 'diamond', 'triangle', 'triangle-down'];
+    return shapes[Math.floor(Math.random() * shapes.length)];
 };
 
 // Helper function for linear regression and R² calculation
@@ -113,6 +120,13 @@ const labelColorPicker = createColorPicker('Label color', labelColor, (value) =>
 });
 target.appendChild(labelColorPicker);
 
+// Label outline (stroke) color picker
+const labelOutlineColorPicker = createColorPicker('Label outline color', labelOutlineColor, (value) => {
+    labelOutlineColor = value;
+    makeChart();
+});
+target.appendChild(labelOutlineColorPicker);
+
 // Utility function to create a color picker with a label
 function createColorPicker(labelText, initialColor, onChangeCallback) {
     const colorPicker = document.createElement('input');
@@ -170,7 +184,7 @@ const makeChart = () => {
             backgroundColor: bgColor // Background color set here
         },
         title: {
-            text: 'Scatter Chart with Global Colors and Combined Regression Line',
+            text: 'Scatter Chart with Global Colors, Shapes, and Combined Regression Line',
             style: {
                 color: titleColor // Title color set here
             }
@@ -193,13 +207,14 @@ const makeChart = () => {
                 name: series.name,
                 data: series.data,
                 marker: {
-                    symbol: 'circle'
+                    symbol: getRandomShape() // Random shape for each series
                 },
                 dataLabels: {
                     enabled: true, // Always show plot labels
                     format: '{series.name}', // Show the series name
                     style: {
-                        color: labelColor // Apply the color chosen for labels
+                        color: labelColor, // Apply the color chosen for labels
+                        textOutline: `2px ${labelOutlineColor}` // Apply the stroke (outline) color
                     }
                 }
             })),
